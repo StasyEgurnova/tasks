@@ -1,0 +1,192 @@
+<!-- Написать код приложения, интерфейс которого состоит из двух input и кнопки. В input можно ввести любое число.
+Заголовок первого input — «номер страницы».
+Заголовок второго input — «лимит».
+Заголовок кнопки — «запрос».
+При клике на кнопку происходит следующее: Если число в первом input не попадает в диапазон от 1 до 10 или не является числом — выводить ниже текст
+    «Номер страницы вне диапазона от 1 до 10»;
+Если число во втором input не попадает в диапазон от 1 до 10 или не является числом — выводить ниже текст
+    «Лимит вне диапазона от 1 до 10»;
+Если и первый, и второй input не в диапазонах или не являются числами — выводить ниже текст
+    «Номер страницы и лимит вне диапазона от 1 до 10»;
+Если числа попадают в диапазон от 1 до 10 — сделать запрос по URL https://picsum.photos/v2/list?page=1&limit=10,
+где GET-параметр page — это число из первого input, а GET-параметр limit — это введённое число второго input.
+
+После получения данных вывести список картинок на экран.
+Если пользователь перезагрузил страницу, то ему должны показываться картинки из последнего успешно выполненного запроса (использовать localStorage).
+Удачи! -->
+
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Задание 5 в модуле 9</title>
+  <!-- Немного стиля -->
+  <style>
+    body {
+      margin: 0;
+      font-family: monospace;
+    }
+
+    main {
+      width: 100%;
+      margin: 50px 0;
+      text-align: center;
+    }
+
+    h1 {
+      color: rgb(41, 116, 195);
+    }
+
+    input {
+      background: unset;
+      border: 2px solid rgb(41, 116, 195);
+      border-radius: 5px;
+      padding: 5px;
+      font-weight: bold;
+      color: #111;
+      width: 130px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: rgb(5, 24, 57);
+    }
+
+    button {
+      background: rgb(41, 116, 195);
+      color: #fff;
+      font-family: monospace;
+      font-weight: bold;
+      border: none;
+      padding: 7px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:focus {
+      outline: none;
+    }
+
+    button:hover {
+      background: rgb(5, 24, 57);
+    }
+
+    .result {
+      margin: 30px 0;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+     .card {
+      width: 200px;
+      margin: 20px;
+    }
+
+    .card-image {
+      display: block;
+      width: 200px;
+      height: 150px;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <h1>Задание 5</h1>
+    <input class="input num" type="text" placeholder="номер страницы" />
+    <input class="input limit" type="text" placeholder="лимит" />
+    <button class="button" type="submit">запрос</button>
+    <div class="result">Введите числа от 1 до 10</div>
+  </main>
+  <script>
+
+
+      const num = document.querySelector(".num");
+      const limit = document.querySelector(".limit");
+      const input = document.querySelector("input");
+      const btn = document.querySelector("button");
+      const result = document.querySelector(".result");
+
+      btn.addEventListener('click', () => {
+        sendRequest(`https://picsum.photos/v2/list?page=${num.value}&limit=${limit.value}`, displayResult);
+      })
+
+       function sendRequest(url, callback) {
+        if (!validateInput()) return;
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.send();
+        xhr.onload = function () {
+          if (xhr.status != 200) {
+            console.log('Статус ответа: ', xhr.status);
+          } else {
+            const data = JSON.parse(xhr.response);
+            localStorage.setItem('myJSON', JSON.stringify(data));
+            console.log('request JSON', data);
+            if (callback) {
+            callback(data);
+           }
+          }
+          }
+         xhr.onerror = function () {
+           console.log('Ошибка! Статус ответа: ', xhr.status);
+         };
+       }
+
+      function displayResult(apiData) {
+        let cards = '';
+        apiData.forEach(item => {
+          const cardBlock = `
+        <div class="card">
+          <img src="${item.download_url}"
+            class="card-image"/>
+          <p>${item.author}</p>
+        </div>
+        `;
+          cards = cards + cardBlock;
+        });
+        result.innerHTML = cards;
+      };
+
+      function validateInput() {
+        if (num.value >= 1 && num.value <= 10 && limit.value >= 1 && limit.value <= 10) {
+          return displayResult;
+
+        } else if ((limit.value >= 1 && limit.value <= 10) && (num.value < 1 || num.value > 10 || isNaN(num.value))) {
+          const errorNum = `
+            <div>
+            <p>Номер страницы вне диапазона от 1 до 10</p>
+            </div>`;
+          result.innerHTML = errorNum
+        } else if ((num.value >= 1 && num.value <= 10) && (limit.value < 1 || limit.value > 10 || isNaN(limit.value))) {
+          const errorLimit = `
+            <div>
+            <p>Лимит страницы вне диапазона от 1 до 10</p>
+            </div>`;
+          result.innerHTML = errorLimit
+          } else {
+          const error = `
+            <div>
+            <p>Номер страницы и лимит вне диапазона от 1 до 10</p>
+            </div>`;
+          result.innerHTML = error
+        }
+    };
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // Получаем данные по ключу myJSON в localStorage
+        const myJSON = localStorage.getItem('myJSON');
+        if (myJSON) {
+        // Если данные в localStorage есть -  выводим их
+        console.log('localStorage JSON', JSON.parse(myJSON));
+        displayResult(JSON.parse(myJSON))
+
+      } else { sendRequest() }
+    });
+  </script>
+</body>
+
+</html>

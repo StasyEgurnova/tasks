@@ -1,0 +1,152 @@
+<!-- Напишите код приложения, интерфейс которого представляет собой input и кнопку.
+В input можно ввести любое число.
+При клике на кнопку происходит следующее: Если число не попадает в диапазон от 1 до 10 — выводить ниже текст «число вне
+диапазона от 1 до 10».
+Если число попадает в диапазон от 1 до 10 — сделать запрос c помощью XHR по URL
+https://picsum.photos/v2/list?limit=10, где get-параметр limit — это введённое число. -->
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Задание 3 в модуле 9</title>
+  <!-- Немного стиля -->
+<style>
+ body {
+  margin: 0;
+  font-family: monospace;
+}
+
+  main {
+    width: 100%;
+    margin: 50px 0;
+    text-align: center;
+    }
+
+  h1 {
+    color: rgb(41, 116, 195);
+    }
+
+  input {
+    background: unset;
+    border: 2px solid rgb(41, 116, 195);
+    border-radius: 5px;
+    padding: 5px;
+    font-weight: bold;
+    color: #111;
+    width: 100px;
+    }
+
+  input:focus {
+    outline: none;
+    border-color: rgb(5, 24, 57);
+    }
+
+  button {
+    background: rgb(41, 116, 195);
+    color: #fff;
+    font-family: monospace;
+    font-weight: bold;
+    border: none;
+    padding: 7px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:focus {
+    outline: none;
+  }
+
+  button:hover {
+      background: rgb(5, 24, 57);
+   }
+
+  .result {
+    margin: 30px 0;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .card {
+    width: 200px;
+    margin: 20px;
+  }
+
+  .card-image {
+    display: block;
+    width: 200px;
+    height: 150px;
+  }
+</style>
+</head>
+<body>
+  <main>
+    <h1>Задание 3</h1>
+    <input class="input" type="text" placeholder="Введите число" />
+    <button class="button">Запрашиваем данные</button>
+    <div class="result">Здесь будет результат запроса</div>
+  </main>
+  <script>
+  function pageLoaded() {
+    const input = document.querySelector("input");
+    const btn = document.querySelector("button");
+    const result = document.querySelector(".result");
+
+    btn.addEventListener('click', () => {
+      sendRequest(`https://picsum.photos/v2/list/?limit=${input.value}`, displayResult);
+    })
+
+    function sendRequest(url, callback) {
+      if (!validateInput()) return;
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.send();
+      xhr.onload = function () {
+        if (xhr.status != 200) {
+          console.log('Статус ответа: ', xhr.status);
+        } else {
+          const data = JSON.parse(xhr.response);
+
+          // if (callback) {
+           callback(data);
+        //  }
+
+        }
+      }
+      xhr.onerror = function () {
+        console.log('Ошибка! Статус ответа: ', xhr.status);
+      };
+    }
+
+    function displayResult(apiData) {
+      let cards = '';
+      apiData.forEach(item => {
+          const cardBlock = `
+        <div class="card">
+          <img src="${item.download_url}"
+            class="card-image"/>
+          <p>${item.author}</p>
+        </div>
+        `;
+          cards = cards + cardBlock;
+      });
+      result.innerHTML = cards;
+    };
+
+    function validateInput() {
+      if (input.value >= 1 && input.value <= 10) {
+        return displayResult;
+      } else {
+        const error = `
+            <div>
+            <p>число вне диапазона от 1 до 10</p>
+            </div>`;
+        result.innerHTML = error
+      }
+    }
+  };
+
+  document.addEventListener("DOMContentLoaded", pageLoaded);
+  </script>
+</body>
+</html>
