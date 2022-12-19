@@ -59,4 +59,5 @@ function getMonth(n) {
 	else { return 'такого месяца нет' };
 }
 
+
 alert(getMonth(8))
