@@ -1,0 +1,25 @@
+{
+  "name": "module_11",
+  "version": "1.0.0",
+  "description": "learning node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StasyEgurnova/tasks.git"
+  },
+  "author": "Anastasia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StasyEgurnova/tasks/issues"
+  },
+  "homepage": "https://github.com/StasyEgurnova/tasks#readme",
+  "devDependencies": {
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "babel-jest": "^29.3.1",
+    "jest": "^29.3.1"
+  }
+}
