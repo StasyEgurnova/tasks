@@ -1,0 +1,234 @@
+/* yeseva-one-regular - latin */
+@font-face {
+  font-family: 'Yeseva One';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+    url('../fonts/yeseva-one-v20-latin-regular.woff2') format('woff2'),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url('../fonts/yeseva-one-v20-latin-regular.woff') format('woff');
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* nunito-sans-regular - latin */
+@font-face {
+  font-family: 'Nunito Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+    url('../fonts/nunito-sans-v12-latin-regular.woff2') format('woff2'),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url('../fonts/nunito-sans-v12-latin-regular.woff') format('woff');
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* nunito-sans-italic - latin */
+@font-face {
+  font-family: 'Nunito Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: local(''),
+    url('../fonts/nunito-sans-v12-latin-italic.woff2') format('woff2'),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url('../fonts/nunito-sans-v12-latin-italic.woff') format('woff');
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+* {
+  margin: 0px;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: 'Nunito Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  margin: 0 auto;
+  line-height: 1.2;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1440px;
+  padding: 0 15px;
+}
+
+.h3_title {
+  font-family: 'Yeseva One';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #181818;
+}
+
+
+.project {
+  background: #131313;
+  position: relative;
+  z-index: 1;
+  height: 1072px;
+}
+
+.container_project {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: minmax(68px, auto);
+  margin-bottom: 57px;
+  padding-top: 107px;
+}
+
+.menu_link {
+  font-size: 14px;
+  line-height: 19px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.active-link {
+  color: #E3B873;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #E3B873;
+}
+
+.menu {
+  grid-column: 2;
+  justify-self: start;
+  align-items: flex-start;
+  display: flex;
+  gap: 0 60px;
+}
+
+.project_title {
+  width: 253px;
+  font-family: 'Yeseva One';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 27px;
+  line-height: 37px;
+  letter-spacing: -0.07em;
+  text-transform: uppercase;
+  color: #E3B873;
+  margin-bottom: 34px;
+}
+
+.project_subtitle {
+  grid-column: 1;
+  width: 442px;
+  height: 86px;
+  font-size: 14px;
+  line-height: 27px;
+  color: #FFFFFF;
+  margin-right: 50px;
+  margin-bottom: 42px;
+}
+
+
+.info {
+  grid-column: 1;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-auto-rows: 107px;
+  justify-content: start;
+}
+
+.h3_info {
+  font-family: 'Yeseva One';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 25px;
+  text-transform: uppercase;
+  color: #E3B873;
+  margin-bottom: 9px;
+}
+
+.span_info {
+  font-size: 13px;
+  line-height: 21px;
+  color: #FFFFFF;
+}
+
+.arrows {
+  display: flex;
+  align-items: center;
+}
+
+.slider_arrow {
+  width: 41px;
+  height: 13px;
+  cursor: pointer;
+}
+
+.slider_arrow:hover,
+.dot:hover{
+  transform: scale(1.3);
+}
+
+.arrow_left:active,
+.arrow_right:active,
+.dot:active{
+  box-shadow: 1px 2px 10px 2px rgb(229, 195, 123);
+  transform: scale(1.2);
+}
+
+.arrow_left{
+  margin-right: 29px;
+}
+.arrow_right {
+  margin-left: 12px;
+}
+
+.dot{
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  margin-right: 17px;
+  cursor: pointer;
+}
+
+.active-dots{
+  background: #FFFFFF;
+}
+
+.photo_project {
+  grid-area: 2/2/6/3;
+  position: relative;
+  width: 679px;
+  height: 481px;
+}
+
+.slider_images .image {
+  background-size: cover;
+  background-position: center center;
+  width: 679px;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transition: opacity 800ms ease;
+}
+
+.slider_images .image.active {
+  opacity: 1;
+}
+
+/* .hidden {
+  display: none;
+} */
